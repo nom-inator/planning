@@ -1,0 +1,37 @@
+Student: Chih-Sheng Wang (cw2952) , Hang Su (hs2761)
+
+
+Project 1: Where to EAT? - restaurant occupancy prediction (Foursquare + Weather API)
+
+#Databases Needed:
+Restaurant’s info and visiting counts with timestamp (from Foursquare),
+Weather condition for specific place and time.
+
+#Use Cases:
+Case 1:
+ Sort all restaurants that fit customer’s requirement at specific moment based on:
+ 			a. user’s favor (no lining up or most popular) 
+ 			b. current time, date, weather and location
+			c. customer’s favourite list
+Case 2:
+Customer types in a restaurant, output recommended visit time (cold time)
+Customer can add specific restaurant into an favourite list
+
+Case 3:
+Restaurant owner will see a dashboard for visiting statistic after logging in.
+
+Case 4:
+Restaurant owner can publish a coupon valid at specific time.
+ 
+#Potential Problems:
+Need information about restaurants’ open hours to avoid error recommendation.
+How come a restaurant owner doesn’t know the visiting statistic of his own restaurant?  ⇒ use case #3 might be trivial … XD
+How to efficiently get nearby restaurants based on coordinates?
+ 
+
+#Other Application
+Museums or hot places like Disneyland
+
+
+#Contingency Plan:
+	Discard use case #3 and #4
