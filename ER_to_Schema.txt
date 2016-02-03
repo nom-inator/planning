@@ -1,0 +1,81 @@
+CREATE TABLE User(
+  uid int,
+  name text,
+  lid int,
+  PRIMARY KEY(uid)
+  FOREIGN KEY (lid) REFERENCES User_Location
+)
+
+CREATE TABLE Rstrnt_of_UserLike(
+  rid int,
+  uid int,
+  PRIMARY KEY(rid, uid)
+  FOREIGN KEY (rid) REFERENCES Restaurant
+  ON DELETE CASCADE
+  FOREIGN KEY (uid) REFERENCES User
+  ON DELETE CASCADE
+)
+
+CREATE TABLE Restaurant(
+  rid int,
+  aid int, NOT NULL, 
+  rate int,
+  PRIMARY KEY(rid)
+  FOREIGN KEY (aid, rid) REFERENCES Address
+)
+
+CREATE TABLE Address(
+  aid int,
+  rid int,
+  coordinate text,
+  zip int,
+  city text,
+  state text,
+  st_addr text,
+  cross_st text,
+  PRIMARY KEY(aid, rid),
+  FOREIGN KEY (rid) REFERENCES Restaurant
+  ON DELETE CASCADE
+)
+
+CREATE TABLE User_Location(
+  lid int,
+  uid int,
+  coordinate text,
+  zip int,
+  city text,
+  state text,
+  st_addr text,
+  cross_st text,
+  PRIMARY KEY(lid),
+  FOREIGN KEY (uid) REFERENCES User
+  ON DELETE CASCADE
+)
+
+CREATE TABLE Condition( // our prebuilt table, not allow to furthur modification
+  cid int,
+  day_of_week int, // 1~7
+  weather text, // sunny, rainy, snowy, cloudy
+  time int, // 0~24
+  PRIMARY KEY(cid)
+)
+
+CREATE TABLE Visit(
+  rid int,
+  cid int,
+  PRIMARY KEY(rid, cid)
+  FOREIGN KEY (rid) REFERENCES Restaurant
+  FOREIGN KEY (cid) REFERENCES Condition
+)
+
+
+ --- [DEPRECATED] ---
+
+CREATE TABLE LikeList_of_User(
+  uid int,
+  lid int,
+  list_name text,
+  PRIMARY KEY(uid, lid)
+  FOREIGN KEY (uid) REFERENCES User
+  ON DELETE CASCADE
+)
