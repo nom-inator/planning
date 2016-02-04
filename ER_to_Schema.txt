@@ -10,7 +10,7 @@ CREATE TABLE Rstrnt_of_UserLike(
   rid int,
   uid int,
   PRIMARY KEY(rid, uid)
-  FOREIGN KEY (rid) REFERENCES Restaurant
+  FOREIGN KEY (rid) REFERENCES Restaurant 
     ON DELETE CASCADE
   FOREIGN KEY (uid) REFERENCES User
     ON DELETE CASCADE
@@ -53,11 +53,11 @@ CREATE TABLE User_Location(
     ON DELETE CASCADE
 )
 
-CREATE TABLE Condition( // our prebuilt table, not allow to furthur modification
+CREATE TABLE Condition( -- our prebuilt table, no modifications allowed
   cid int,
-  day_of_week int, // 1~7
-  weather text, // sunny, rainy, snowy, cloudy
-  time int, // 0~24
+  day_of_week int, -- 1~7
+  weather text, -- sunny, rainy, snowy, cloudy
+  time int, -- 0~24
   PRIMARY KEY (cid)
 )
 
