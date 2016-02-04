@@ -2,7 +2,7 @@ CREATE TABLE User(
   uid int,
   name text,
   lid int,
-  PRIMARY KEY(uid)
+  PRIMARY KEY (uid)
   FOREIGN KEY (lid) REFERENCES User_Location
 )
 
@@ -20,8 +20,9 @@ CREATE TABLE Restaurant(
   rid int,
   aid int NOT NULL, 
   rate int,
-  PRIMARY KEY(rid)
+  PRIMARY KEY (rid)
   FOREIGN KEY (aid, rid) REFERENCES Address
+    ON DELETE NO ACTION
 )
 
 CREATE TABLE Address(
@@ -33,7 +34,7 @@ CREATE TABLE Address(
   state text,
   st_addr text,
   cross_st text,
-  PRIMARY KEY(aid, rid),
+  PRIMARY KEY (aid, rid)
   FOREIGN KEY (rid) REFERENCES Restaurant
     ON DELETE CASCADE
 )
@@ -47,7 +48,7 @@ CREATE TABLE User_Location(
   state text,
   st_addr text,
   cross_st text,
-  PRIMARY KEY(lid, uid),
+  PRIMARY KEY(lid, uid)
   FOREIGN KEY (uid) REFERENCES User
     ON DELETE CASCADE
 )
@@ -57,7 +58,7 @@ CREATE TABLE Condition( // our prebuilt table, not allow to furthur modification
   day_of_week int, // 1~7
   weather text, // sunny, rainy, snowy, cloudy
   time int, // 0~24
-  PRIMARY KEY(cid)
+  PRIMARY KEY (cid)
 )
 
 CREATE TABLE Visit(
