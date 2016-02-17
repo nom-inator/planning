@@ -6,15 +6,24 @@ CREATE TABLE User(
   FOREIGN KEY (lid) REFERENCES User_Location
 )
 
-CREATE TABLE Rstrnt_of_UserLike(
-  rid int,
+CREATE TABLE FavouritesList(
+  listid int,
   uid int,
-  PRIMARY KEY(rid, uid)
-  FOREIGN KEY (rid) REFERENCES Restaurant 
-    ON DELETE CASCADE
+  PRIMARY KEY (listid, uid)
   FOREIGN KEY (uid) REFERENCES User
     ON DELETE CASCADE
 )
+
+CREATE TABLE RestaurantOfList(
+  rid int,
+  listid int,
+  PRIMARY KEY(rid, listid)
+  FOREIGN KEY (rid) REFERENCES Restaurant
+    ON DELETE CASCADE
+  FOREIGN KEY (listid) REFERENCES FavouritesList
+    ON DELETE CASCADE
+)
+
 
 CREATE TABLE Restaurant(
   rid int,
