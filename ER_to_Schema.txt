@@ -27,6 +27,7 @@ CREATE TABLE RestaurantOfList(
 
 CREATE TABLE Restaurant(
   rid int,
+  rname text,
   aid int NOT NULL, 
   rate int,
   PRIMARY KEY (rid)
