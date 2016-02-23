@@ -1,19 +1,14 @@
 #1: Find the restaurants within r radius of user u's current location
 (multi-table + WHERE)
 
-SELECT  R.rname
-FROM    Restaurant AS R
-WHERE   R.aid IN
-        (
-            SELECT  A.aid
-            FROM    Address AS A, User_Location AS UL
-            WHERE   |/( (UL.lat - A.lat) ^ 2 + (UL.lng - A.lng) ^ 2 ) < r IN
-                    (
-                        SELECT UL.lat, UL.lng
-                        FROM User_Location AS UL
-                        WHERE UL.uid = u 
-                    )
-        )
+SELECT      *
+FROM        Restaurant AS R, User_Location AS UL, Address AS A
+WHERE       R.aid IN
+            (
+                SELECT  A.aid
+                WHERE   |/( (UL.lat - A.lat) ^ 2 + (UL.lng - A.lng) ^ 2 ) < r AND UL.uid = 'evanj'
+            )
+ORDER BY    |/( (UL.lat - A.lat) ^ 2 + (UL.lng - A.lng) ^ 2 ) ASC
 
 
 #2: Sort restaurants by visit count during rainy weather
@@ -24,15 +19,16 @@ WHERE   R.aid IN
 3. for each Restaurant rid, average the Visit counts that occured with rainy
 4. find the Restaurant rname, sorting by averaged Visit count
 
-SELECT      V.rid, AVG(V.count)
-FROM        Visit AS V
+SELECT      R.rname, AVG(V.count)
+FROM        Visit AS V, Restaurant AS R
 WHERE       V.cid IN
             (
                 SELECT  C.cid
                 FROM    Condition AS C
                 WHERE   C.weather = 'rainy'
             )
-GROUP BY    V.rid
+            AND V.rid = R.rid
+GROUP BY    R.rname
 ORDER BY    AVG(V.count) DESC
 
 #3: Sort conditions by visit count for a particular restaurant
@@ -43,16 +39,16 @@ ORDER BY    AVG(V.count) DESC
 3. sort the conditions by ascending visit count, returning the day_of_week, weather, and time
 
 
-SELECT      C.day_of_week, C.weather, C.time
+SELECT      C.day_of_week, C.weather, C.time, V.count
 FROM        Condition AS C, Visit AS V
-WHERE       C.cid = ANY 
+WHERE       C.cid IN 
             (
-                SELECT  V.cid, V.count
+                SELECT  V.cid
                 WHERE   V.rid = ANY
                 (
                     SELECT  R.rid
                     FROM    Restaurant AS R
-                    WHERE   R.rname = restaurant_name
+                    WHERE   R.rname = "The Saltshaker"
                 )
             )
 ORDER BY    V.count ASC
