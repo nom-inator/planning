@@ -31,8 +31,8 @@ CREATE TABLE FavouritesList(
 CREATE TABLE Address(
   aid text,
   rid text,
-  lat numeric,
-  lng numeric,
+  lat numeric NOT NULL,
+  lng numeric NOT NULL,
   zip int,
   city text,
   state text,
