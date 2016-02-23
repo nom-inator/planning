@@ -10,7 +10,8 @@ ALTER TABLE Users ADD CONSTRAINT lfk FOREIGN KEY (lid) REFERENCES User_Location 
 CREATE TABLE User_Location(
   lid text,
   uid text,
-  coordinate text,
+  lat numeric,
+  lng numeric,
   PRIMARY KEY(lid),
   FOREIGN KEY (uid) REFERENCES Users
     ON DELETE CASCADE
@@ -30,7 +31,8 @@ CREATE TABLE FavouritesList(
 CREATE TABLE Address(
   aid text,
   rid text,
-  coordinate text,
+  lat numeric,
+  lng numeric,
   zip int,
   city text,
   state text,

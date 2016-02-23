@@ -1,0 +1,56 @@
+#1: Find the restaurants within r radius of user u's current location
+(multi-table + WHERE)
+
+SELECT  R.rname
+FROM    Restaurant AS R
+WHERE   R.aid IN
+        (
+            SELECT A.aid
+            FROM    Address AS A, User_Location AS UL
+            WHERE   |/( (UL.lat - A.lat) ^ 2 + (UL.lng - A.lng) ^ 2 ) < r
+        )
+
+
+
+#2: Sort restaurants by visit count during rainy weather
+(multi-table + aggregation)
+
+1. find all Condition entries that have 'rainy' as a record under weather
+2. find all Visit entries that have corresponding Condition cid
+3. for each Restaurant rid, average the Visit counts that occured with rainy
+4. find the Restaurant rname, sorting by averaged Visit count
+
+SELECT      V.rid, AVG(V.count)
+FROM        Visit AS V
+WHERE       V.cid IN
+            (
+                SELECT  C.cid
+                FROM    Condition AS C
+                WHERE   C.weather = 'rainy'
+            )
+GROUP BY    V.rid
+ORDER BY    AVG(V.count) DESC
+
+#3: Sort conditions by visit count for a particular restaurant
+(multi-table + WHERE)
+
+1. find the rid of the restaurant from its restaurant_name 
+2. find the conditions associated with rid in Visit
+3. sort the conditions by ascending visit count, returning the day_of_week, weather, and time
+
+
+SELECT      C.day_of_week, C.weather, C.time
+FROM        Condition AS C, Visit AS V
+WHERE       C.cid = ANY 
+            (
+                SELECT  V.cid, V.count
+                WHERE   V.rid = ANY
+                (
+                    SELECT  R.rid
+                    FROM    Restaurant AS R
+                    WHERE   R.rname = restaurant_name
+                )
+            )
+ORDER BY    V.count ASC
+
+(should we do sorting in SQL??? How do we do sorting in SQL???)
