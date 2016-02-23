@@ -5,11 +5,15 @@ SELECT  R.rname
 FROM    Restaurant AS R
 WHERE   R.aid IN
         (
-            SELECT A.aid
+            SELECT  A.aid
             FROM    Address AS A, User_Location AS UL
-            WHERE   |/( (UL.lat - A.lat) ^ 2 + (UL.lng - A.lng) ^ 2 ) < r
+            WHERE   |/( (UL.lat - A.lat) ^ 2 + (UL.lng - A.lng) ^ 2 ) < r IN
+                    (
+                        SELECT UL.lat, UL.lng
+                        FROM User_Location AS UL
+                        WHERE UL.uid = u 
+                    )
         )
-
 
 
 #2: Sort restaurants by visit count during rainy weather
